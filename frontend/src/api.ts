@@ -1,7 +1,23 @@
 import { Complaint, AnalyticsData } from './types';
 
-const API_BASE =
-  `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api`;
+const BACKEND_URL =
+  import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
+const API_BASE = `${BACKEND_URL}/api`;
+
+export function getMediaUrl(path?: string | null): string {
+  if (!path) {
+    return `${BACKEND_URL}/uploads/pothole_1.svg`;
+  }
+
+  // Already an absolute URL
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
+  }
+
+  // Handle paths such as /uploads/pothole_1.svg
+  return `${BACKEND_URL}${path.startsWith('/') ? '' : '/'}${path}`;
+}
 
 export async function fetchComplaints(filters?: {
   issue_type?: string;

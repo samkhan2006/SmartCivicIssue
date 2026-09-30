@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Complaint, IssueType, ComplaintStatus, ComplaintPriority } from '../types';
 import { createComplaintIcon, ISSUE_COLORS, ISSUE_ICONS } from '../utils/leafletIcons';
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON, useMap } from 'react-leaflet';
+
 import 'leaflet/dist/leaflet.css';
 import {
   Search,
@@ -19,7 +20,7 @@ import {
 } from 'lucide-react';
 import { StatusBadge } from '../components/StatusBadge';
 import { PriorityBadge } from '../components/PriorityBadge';
-import { fetchGisLayers } from '../api';
+import { fetchComplaints, fetchGisLayers, getMediaUrl } from '../api';
 
 interface AdminMapPageProps {
   complaints: Complaint[];
@@ -378,11 +379,11 @@ export const AdminMapPage: React.FC<AdminMapPageProps> = ({
                       {/* Photo Thumbnail */}
                       <div className="w-full h-24 rounded-lg overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center">
                         <img
-                          src={c.photo || '/uploads/pothole_1.svg'}
+                          src={getMediaUrl(c.photo)}
                           alt={c.issue_type}
                           className="w-full h-full object-cover"
                           onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/uploads/pothole_1.svg';
+                            (e.target as HTMLImageElement).src = getMediaUrl('/uploads/pothole_1.svg');
                           }}
                         />
                       </div>

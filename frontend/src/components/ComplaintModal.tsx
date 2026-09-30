@@ -5,6 +5,7 @@ import { PriorityBadge } from './PriorityBadge';
 import { ISSUE_COLORS, ISSUE_ICONS } from '../utils/leafletIcons';
 import { MapPin, Calendar, Clock, AlertCircle, X, CheckCircle2, ChevronRight } from 'lucide-react';
 import { updateComplaintStatus } from '../api';
+import { getMediaUrl } from '../api';
 
 interface ComplaintModalProps {
   complaint: Complaint | null;
@@ -130,12 +131,12 @@ export const ComplaintModal: React.FC<ComplaintModalProps> = ({
               </span>
               <div className="aspect-4/3 rounded-xl overflow-hidden border border-slate-200 bg-slate-900 shadow-inner flex items-center justify-center relative group">
                 <img
-                  src={complaint.photo || '/uploads/pothole_1.svg'}
+                  src={getMediaUrl(complaint.photo)}
                   alt={complaint.issue_type}
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     // Fallback to placeholder if not loaded
-                    (e.target as HTMLImageElement).src = '/uploads/pothole_1.svg';
+                    (e.target as HTMLImageElement).src = getMediaUrl('/uploads/pothole_1.svg');
                   }}
                 />
                 <div className="absolute bottom-2 left-2 px-2 py-1 bg-black/70 backdrop-blur-xs rounded text-[11px] text-white font-mono flex items-center gap-1.5">
